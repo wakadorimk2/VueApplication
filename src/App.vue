@@ -1,28 +1,37 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
+    <div>
+        <myheader></myheader>
+        <h1 v-if='msg.length > 0'>{{ msg }}</h1>
+        <h1 v-else>no text</h1>
+        <input type='text' v-model='msg'>
+        <button @click='clear()'>clear</button>
+        <button @click='set()'>set</button>
+        <br>
+        <img :src="image_src">
+    </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import myheader from './components/myheader'
 
 export default {
-  name: "app",
-  components: {
-    HelloWorld
-  }
-};
-</script>
-
-<style>
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+    components : {
+        myheader
+    },
+    data () {
+        return {
+            msg : 'vue tutorial',
+            image_src : 'https://pbs.twimg.com/media/EJaKTwcUcAA-kuk?format=jpg&name=900x900'
+        }
+    },
+    methods : {
+        clear () {
+            this.msg = ''
+            this.image_src = ''
+        },
+        set() {
+            this.image_src = 'https://pbs.twimg.com/media/EJaKTwcUcAA-kuk?format=jpg&name=900x900'
+        }
+    },
 }
-</style>
+</script>
