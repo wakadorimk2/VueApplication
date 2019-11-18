@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 
+from getFaves import getFaves
 
 # configuration
 DEBUG = True
@@ -17,6 +18,10 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 @app.route('/ping', methods=['GET'])
 def ping_pong():
     return jsonify('pong!')
+
+@app.route('/viewer', methods=['GET'])
+def fav_images():
+    return jsonify(getFaves())
 
 
 if __name__ == '__main__':

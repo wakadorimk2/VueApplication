@@ -19,3 +19,6 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+# secret data
+server/conf_secret.py
