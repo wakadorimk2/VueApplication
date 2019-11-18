@@ -1,29 +1,9 @@
-# vue
+# Vue Application
+このレポジトリはPythonサーバとVueクライアントの連携を練習するためのものです。
 
-## Project setup
-```
-npm install
-```
+# 参考
+- [Developing a Single Page App with Flask and Vue.js | TestDriven.io](https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+- [Vue.js を vue-cli を使ってシンプルにはじめてみる - Qiita](https://qiita.com/567000/items/dde495d6a8ad1c25fa43)
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+[https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/:embed]
