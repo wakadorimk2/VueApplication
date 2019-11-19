@@ -19,10 +19,6 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 def ping_pong():
     return jsonify('pong!')
 
-@app.route('/viewer', methods=['GET'])
-def fav_images():
-    return jsonify(getFaves())
-
 @app.route('/faves', methods=['GET'])
 def all_faves():
     return jsonify({

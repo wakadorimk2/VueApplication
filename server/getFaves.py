@@ -1,18 +1,10 @@
-
 '''
-correctimage.py
-Twitterからいいね画像を集める
+getFaves.py
+Twitterからいいね画像を集め、リストとして返す。
 '''
 import twitter
 from conf_secret import keys_and_tokens
 from conf import faves
-import datetime as dt
-import time
-from pprint import pprint
-from PIL import Image
-import requests
-from io import BytesIO
-from pdb import set_trace as trace
 
 # apiの初期化
 api = twitter.Api(**keys_and_tokens)
