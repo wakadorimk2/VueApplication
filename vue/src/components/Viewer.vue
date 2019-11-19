@@ -1,5 +1,17 @@
 <template>
-  <span>Message: {{faves[0] }}</span>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-10">
+        <table class="table table-hover">
+          <tbody>
+            <tr v-for="(fav, index) in faves" :key="index">
+              <td><img :src=fav.url width=100></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
