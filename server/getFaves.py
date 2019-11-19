@@ -32,7 +32,7 @@ class FavoritesGenerator(object):
         self.args = args
         self.kwargs = kwargs
         self.now_count = 0
-        self.count_per_request = 200
+        self.count_per_request = 20
         if 'last_id' not in kwargs:
             self.last_id = -1
         else:
