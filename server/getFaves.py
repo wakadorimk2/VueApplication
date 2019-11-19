@@ -60,7 +60,10 @@ def getFaves():
                 continue
             url = e['media'][0]['media_url_https'].replace('.jpg', '.png')
             id = e['id']
-            faves[id] = url
+            faves.append({
+                'id' : id,
+                'url' : url
+            })
     return faves
 
 if __name__ == '__main__':

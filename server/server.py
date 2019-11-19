@@ -23,6 +23,13 @@ def ping_pong():
 def fav_images():
     return jsonify(getFaves())
 
+@app.route('/faves', methods=['GET'])
+def all_faves():
+    return jsonify({
+        'status': 'success',
+        'faves': getFaves()
+})
+
 
 if __name__ == '__main__':
     app.run()
