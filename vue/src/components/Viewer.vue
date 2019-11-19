@@ -1,22 +1,9 @@
 <template>
-  <section class="section">
-    <div class="container">
-      <MagicGrid>
-        <card
-          v-for="(fav, i) in faves"
-          :key="i"
-          :title="fav.title"
-          :body="fav.body"
-        />
-      </MagicGrid>
-    </div>
-  </section>
+  <span>Message: {{faves[0] }}</span>
 </template>
 
 <script>
 import axios from 'axios';
-import MagicGrid from 'vue-magic-grid';
-import card from './Card.vue';
 
 export default {
   name: 'Viewer',
@@ -24,10 +11,6 @@ export default {
     return {
       faves: {},
     };
-  },
-  components: {
-    MagicGrid,
-    card,
   },
   methods: {
     getFaves() {
