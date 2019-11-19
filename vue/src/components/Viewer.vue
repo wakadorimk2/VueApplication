@@ -1,17 +1,12 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-10">
-        <table class="table table-hover">
-          <tbody>
-            <tr v-for="(fav, index) in faves" :key="index">
-              <td><img :src=fav.url width=100></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+  <v-carousel hide-delimiters>
+    <v-carousel-item
+      v-for="(fav, i) in faves"
+      :key="i"
+      :src="fav.url"
+    >
+    </v-carousel-item>
+  </v-carousel>
 </template>
 
 <script>
