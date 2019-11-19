@@ -1,25 +1,40 @@
 <template>
-    <ul>
-        <li>{{ msg }}</li>
-    </ul>
+  <section class="section">
+    <div class="container">
+      <MagicGrid>
+        <card
+          v-for="(fav, i) in faves"
+          :key="i"
+          :title="fav.title"
+          :body="fav.body"
+        />
+      </MagicGrid>
+    </div>
+  </section>
 </template>
 
 <script>
 import axios from 'axios';
+import MagicGrid from 'vue-magic-grid';
+import card from './Card.vue';
 
 export default {
   name: 'Viewer',
   data() {
     return {
-      msg: '',
+      faves: {},
     };
   },
+  components: {
+    MagicGrid,
+    card,
+  },
   methods: {
-    getMessage() {
-      const path = 'http://localhost:5000/viewer';
+    getFaves() {
+      const path = 'http://localhost:5000/faves';
       axios.get(path)
         .then((res) => {
-          this.msg = res.data;
+          this.faves = res.data.faves;
         })
         .catch((error) => {
           // eslint-disable-next-line
@@ -28,7 +43,7 @@ export default {
     },
   },
   created() {
-    this.getMessage();
+    this.getFaves();
   },
 };
 </script>
