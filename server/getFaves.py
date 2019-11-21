@@ -50,13 +50,19 @@ def getFaves():
             e = e.AsDict()
             if 'media' not in e.keys():
                 continue
-            url = e['media'][0]['media_url_https'].replace('.jpg', '.png')
+            media = e['media'][0]
+            url = media['media_url_https'].replace('.jpg', '.png')
             id = e['id']
             faves.append({
                 'id' : id,
-                'url' : url
+                'src' : url,
+                'text' : e['text'],
+                'sizes' : media['sizes'],
+                'favorite_count' : e['favorite_count'],
+                'retweet_count' : e['retweet_count'],
+                'created_at' : e['created_at']
             })
     return faves
 
 if __name__ == '__main__':
-    getFaves()
+    faves = getFaves()
