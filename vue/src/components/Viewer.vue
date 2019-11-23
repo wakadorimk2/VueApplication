@@ -13,23 +13,25 @@
       >
         <v-icon color=#fff>mdi-heart</v-icon>
       </v-btn>
-      <v-row dense>
-        <v-col
-          v-for="(fav, index) in faves"
-          :key="index"
-          :cols="fav.sizes[display]['h']"
-        >
-          <v-card flat tile>
-            <v-img
-              :src="fav.src"
-              :height="windowSize.y/5"
-              :width="fav.sizes[display]['w']/2"
-              aspect-ratio="1"
+        <scroll-loader :loader-method="getFaves" :loader-enable="loadMore">
+          <v-row dense>
+            <v-col
+              v-for="(fav, index) in faves"
+              :key="index"
+              :cols="fav.sizes[display]['h']"
             >
-            </v-img>
-          </v-card>
-        </v-col>
-      </v-row>
+              <v-card flat tile>
+                <v-img
+                  :src="fav.src"
+                  :height="windowSize.y/5"
+                  :width="fav.sizes[display]['w']/2"
+                  aspect-ratio="1"
+                >
+                </v-img>
+              </v-card>
+            </v-col>
+          </v-row>
+        </scroll-loader>
     </v-container>
   </v-card>
 </template>
@@ -47,14 +49,15 @@ export default {
       y: 0,
     },
     display: 'small',
-
+    loadMore: true,
   }),
-
+  /*
   created() {
     this.getFaves();
-  },
+  }, */
   mounted() {
     this.onResize();
+    this.getFaves();
   },
 
   methods: {
@@ -63,7 +66,12 @@ export default {
     },
     getFaves() {
       const path = 'http://localhost:5000/faves';
-      axios.get(path)
+      axios.get(path, {
+        params: {
+          page: this.page + 1,
+          per_page: this.pageSize,
+        },
+      })
         .then((res) => {
           this.faves = res.data.faves;
         })
