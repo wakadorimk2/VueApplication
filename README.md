@@ -1,12 +1,15 @@
 # Vue Application
-ã“ã®ãƒ¬ãƒã‚¸ãƒˆãƒªã¯Pythonã‚µãƒ¼ãƒã¨Vueã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®é€£æºã‚’ç·´ç¿’ã™ã‚‹ãŸã‚ã®ã‚‚ã®ã§ã™ã€‚
+‚±‚ÌƒŒƒ|ƒWƒgƒŠ‚ÍPythonƒT[ƒo‚ÆVueƒNƒ‰ƒCƒAƒ“ƒg‚Ì˜AŒg‚ğ—ûK‚·‚é‚½‚ß‚Ì‚à‚Ì‚Å‚·B
 
-# å‚è€ƒ
+# Ql
 - [Developing a Single Page App with Flask and Vue.js | TestDriven.io](https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/)
 
-- [Vue.js ã‚’ vue-cli ã‚’ä½¿ã£ã¦ã‚·ãƒ³ãƒ—ãƒ«ã«ã¯ã˜ã‚ã¦ã¿ã‚‹ - Qiita](https://qiita.com/567000/items/dde495d6a8ad1c25fa43)
+- [Vue.js ‚ğ vue-cli ‚ğg‚Á‚ÄƒVƒ“ƒvƒ‹‚É‚Í‚¶‚ß‚Ä‚İ‚é - Qiita](https://qiita.com/567000/items/dde495d6a8ad1c25fa43)
 
-- [imlinus/vue-magic-grid: ğŸ§™â€â™‚ï¸ğŸ”Œ Responsive Magic Grid for Vue](https://github.com/imlinus/vue-magic-grid)
+- [imlinus/vue-magic-grid: ??‰?? Responsive Magic Grid for Vue](https://github.com/imlinus/vue-magic-grid)
 
-- [HTML/CSSã®è¦šãˆæ–¹ã€€WEBåˆ¶ä½œã«å½¹ç«‹ã¤ä¾¿åˆ©ãªãƒãƒ¼ãƒˆã‚·ãƒ¼ãƒˆã¾ã¨ã‚ - Minimal Green](https://www.atmarkit.co.jp/fdotnet/chushin/cheatsheet_02/cheatsheet_02_01.html)  
+- [HTML/CSS‚ÌŠo‚¦•û@WEB§ì‚É–ğ—§‚Â•Ö—˜‚Èƒ`[ƒgƒV[ƒg‚Ü‚Æ‚ß - Minimal Green](https://www.atmarkit.co.jp/fdotnet/chushin/cheatsheet_02/cheatsheet_02_01.html)  
 <img src="https://www.atmarkit.co.jp/fdotnet/chushin/cheatsheet_02/cheatsheet_02_01.gif" width=100>
+
+- [Twitter‚ÌAPI§ŒÀ [2019/11/17Œ»İ] - Qiita](https://qiita.com/mpyw/items/32d44a063389236c0a65)  
+```/favorites/list```‚Í15•ª“–‚½‚è75ƒŠƒNƒGƒXƒg(=5[ƒŠƒNƒGƒXƒg/•ª])‚Ì§ŒÀ‚ª‚ ‚é‚Ì‚Å‰Â”\‚ÈŒÀ‚èƒLƒƒƒbƒVƒ“ƒO‚·‚éB‚Ü‚½1ƒŠƒNƒGƒXƒg‚Å1`200ƒcƒC[ƒg‚ğæ“¾‚Å‚«‚é‚Ì‚ÅAí‚ÉÅ‘å‚Ì200ƒcƒC[ƒg‚ğæ“¾‚·‚é‚±‚Æ‚ÅRate Limit‚ğ”ğ‚¯‚éB

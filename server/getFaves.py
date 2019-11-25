@@ -2,9 +2,11 @@
 getFaves.py
 Twitterからいいね画像を集め、リストとして返す。
 '''
+import os
+import json
 import twitter
 from conf_secret import keys_and_tokens
-from conf import faves
+from conf import faves, cached_faves
 
 # apiの初期化
 api = twitter.Api(**keys_and_tokens)
@@ -21,22 +23,33 @@ class FavoritesGenerator(object):
     ''' あるユーザがいいねした画像を取得する。
     callする度に[self.count_per_request]枚のStatusリストが返される '''
     def __init__(self, *args, **kwargs):
-        self.args = args
+        self.args = args  # set parameters
         self.kwargs = kwargs
-        self.now_count = 0
-        self.count_per_request = 20
+        self.count_per_request = 200  # max value
         if 'last_id' not in kwargs:
             self.last_id = -1
         else:
             self.last_id = kwargs['last_id']
 
+        if not os.path.exists(cached_faves):  # read a cache if it exists
+            with open(cached_faves, 'w') as f:
+                self.cached_faves = []
+                json.dump(self.cached_faves, f)
+        else:
+            with open(cached_faves, 'r') as f:
+                self.cached_faves = json.load(f)
+
     def __call__(self):
-        kwargs = {
+        kwargs = {  # パラメータ設定
             'screen_name' : self.kwargs['screen_name'],
             'count' : self.count_per_request,
         }
+
+        # 取得開始ID指定(マイナスであれば指定なし)
         if self.last_id >= 0:
-            kwargs['max_id'] = self.last_id                
+            kwargs['max_id'] = self.last_id
+
+        
         fav_list = self.kwargs['api'].GetFavorites(**kwargs)
         self.last_id = fav_list[-1].AsDict()['id']
         return fav_list
