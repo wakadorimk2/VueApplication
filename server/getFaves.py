@@ -36,7 +36,7 @@ class FavoritesGenerator(object):
             with open(cached_faves_name, 'r') as f:
                 self.cached_faves = json.load(f)
         else:
-            self.cached_faves = []
+            self.cached_faves = {}
 
     def __call__(self):
         kwargs = {  # パラメータ設定
@@ -55,7 +55,7 @@ class FavoritesGenerator(object):
             fav_list = self.kwargs['api'].GetFavorites(**kwargs)
 
             # set API used time
-            if rate_status['start'] < 0:
+            if isinstance(rate_status['start'], int):
                 rate_status['start'] = dt.datetime.now()
             now = dt.datetime.now()
             elapsed_time = rate_status['start'] - now
@@ -69,7 +69,7 @@ class FavoritesGenerator(object):
         # make or refresh cache
         existNew = True  # temporarily force making cache
         if existNew:
-            self.cached_faves = fav_list
+            self.cached_faves = [fav.AsDict() for fav in fav_list]
             with open(cached_faves_name, 'w') as f:
                 json.dump(self.cached_faves, f)
 
