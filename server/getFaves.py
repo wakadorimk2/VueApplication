@@ -7,6 +7,7 @@ import json
 import twitter
 from conf_secret import keys_and_tokens
 from conf import faves, cached_faves_name, rate_status
+import datetime as dt
 
 # apiの初期化
 api = twitter.Api(**keys_and_tokens)
@@ -47,11 +48,23 @@ class FavoritesGenerator(object):
         if self.last_id >= 0:
             kwargs['max_id'] = self.last_id
 
-        # check rate limit
+        # check rate limit AND count API
         if rate_status['current'] >= rate_status['limit']:
             fav_list = self.cached_faves
-        else:
+        else:  # If use API, refresh rate status
             fav_list = self.kwargs['api'].GetFavorites(**kwargs)
+
+            # set API used time
+            if rate_status['start'] < 0:
+                rate_status['start'] = dt.datetime.now()
+            now = dt.datetime.now()
+            elapsed_time = rate_status['start'] - now
+            if elapsed_time.seconds > 60:
+                rate_status['start'] = now
+                rate_status['current'] = 0
+
+            # increment API count
+            rate_status['current'] += 1
 
         # make or refresh cache
         existNew = True  # temporarily force making cache
