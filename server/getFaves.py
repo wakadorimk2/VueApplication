@@ -6,7 +6,7 @@ import os
 import json
 import twitter
 from conf_secret import keys_and_tokens
-from conf import faves, cached_faves
+from conf import faves, cached_faves_name, rate_status
 
 # apiの初期化
 api = twitter.Api(**keys_and_tokens)
@@ -31,13 +31,11 @@ class FavoritesGenerator(object):
         else:
             self.last_id = kwargs['last_id']
 
-        if not os.path.exists(cached_faves):  # read a cache if it exists
-            with open(cached_faves, 'w') as f:
-                self.cached_faves = []
-                json.dump(self.cached_faves, f)
-        else:
-            with open(cached_faves, 'r') as f:
+        if os.path.exists(cached_faves_name):  # read a cache if it exists
+            with open(cached_faves_name, 'r') as f:
                 self.cached_faves = json.load(f)
+        else:
+            self.cached_faves = []
 
     def __call__(self):
         kwargs = {  # パラメータ設定
@@ -49,8 +47,20 @@ class FavoritesGenerator(object):
         if self.last_id >= 0:
             kwargs['max_id'] = self.last_id
 
-        
-        fav_list = self.kwargs['api'].GetFavorites(**kwargs)
+        # check rate limit
+        if rate_status['current'] >= rate_status['limit']:
+            fav_list = self.cached_faves
+        else:
+            fav_list = self.kwargs['api'].GetFavorites(**kwargs)
+
+        # make or refresh cache
+        existNew = True  # temporarily force making cache
+        if existNew:
+            self.cached_faves = fav_list
+            with open(cached_faves_name, 'w') as f:
+                json.dump(self.cached_faves, f)
+
+        # prepare for next call
         self.last_id = fav_list[-1].AsDict()['id']
         return fav_list
 
