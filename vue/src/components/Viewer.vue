@@ -23,9 +23,9 @@
               <v-card flat tile>
                 <v-img
                   :src="fav.src"
-                  :height="windowSize.y/5"
-                  :width="fav.sizes[display]['w']/2"
-                  aspect-ratio="1"
+                  :height="windowSize.y"
+                  :width="windowSize.x * (windowSize.y / fav.sizes[display]['h'])"
+                  contain=True
                 >
                 </v-img>
               </v-card>
