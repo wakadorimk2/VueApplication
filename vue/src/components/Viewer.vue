@@ -13,25 +13,25 @@
       >
         <v-icon color=#fff>mdi-heart</v-icon>
       </v-btn>
-        <scroll-loader :loader-method="getFaves" :loader-enable="loadMore">
-          <v-row dense>
-            <v-col
-              v-for="(fav, index) in faves"
-              :key="index"
-              :cols="fav.sizes[display]['h']"
-            >
-              <v-card flat tile>
-                <v-img
-                  :src="fav.src"
-                  :height="windowSize.y"
-                  :width="windowSize.x * (windowSize.y / fav.sizes[display]['h'])"
-                  contain=True
-                >
-                </v-img>
-              </v-card>
-            </v-col>
-          </v-row>
-        </scroll-loader>
+      <v-row dense>
+        <v-col
+          v-for="(fav, index) in faves"
+          :key="index"
+          :cols="fav.sizes[display]['h']"
+        >
+          <scroll-loader :loader-method="getFaves" :loader-enable="loadMore">
+            <v-card flat tile>
+              <v-img
+                :src="fav.src"
+                :height="windowSize.y"
+                :width="windowSize.x * (windowSize.y / fav.sizes[display]['h'])"
+                :contain="true"
+              >
+              </v-img>
+            </v-card>
+          </scroll-loader>
+        </v-col>
+      </v-row>
     </v-container>
   </v-card>
 </template>

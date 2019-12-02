@@ -51,8 +51,10 @@ class FavoritesGenerator(object):
         # check rate limit AND count API
         if rate_status['current'] >= rate_status['limit']:
             fav_list = self.cached_faves
+            print('used cache!!!')  # debug
         else:  # If use API, refresh rate status
             fav_list = self.kwargs['api'].GetFavorites(**kwargs)
+            print('called GetFavorites!!!')  # debug
 
             # set API used time
             if isinstance(rate_status['start'], int):
