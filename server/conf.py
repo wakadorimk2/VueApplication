@@ -2,10 +2,11 @@ faves = []
 
 cached_faves_name = './cached_faves.json'
 
-# count how many times API is used
-rate_status = {
-    'limit' : 5,  # requests per minute
-    'current' : 0,  # current count of API
-    'start' : -1,  # time when rate counting started
-    'seconds' : 60 # seconds of interval
+rate_status_init = {
+    'limit' : 5,
+    'current' : 0,
+    'start' : '',
+    'interval' : 60
 }
+
+datetime_format = '%c'  # 'Mon Jul DD hh:mm:ss yyyy' format

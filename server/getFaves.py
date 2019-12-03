@@ -3,11 +3,13 @@ getFaves.py
 Twitterからいいね画像を集め、リストとして返す。
 '''
 import os
+import datetime as dt
 import json
 import twitter
 from conf_secret import keys_and_tokens
-from conf import faves, cached_faves_name, rate_status
-import datetime as dt
+from conf import faves, cached_faves_name
+from util import makeJson2dict, makeDict2json
+from util import isDatetimeFormat, makeDatetime2string, makeString2datetime
 
 # apiの初期化
 api = twitter.Api(**keys_and_tokens)
@@ -19,6 +21,10 @@ kwargs = {
     'screen_name' : 'wakadori_Mk2',
     #'last_id' : 1161675517847715840,  # このツイートIDより古い物を探す
 }
+
+# load JSON for monitoring Rate Limit
+jsonpath = 'rate_status.json'
+rate_status = makeJson2dict(jsonpath)
 
 class FavoritesGenerator(object):
     ''' あるユーザがいいねした画像を取得する。
@@ -60,16 +66,19 @@ class FavoritesGenerator(object):
             print('called GetFavorites!!!')  # debug
 
             # set API used time
-            if isinstance(rate_status['start'], int):
-                rate_status['start'] = dt.datetime.now()
             now = dt.datetime.now()
-            elapsed_time = rate_status['start'] - now
-            if elapsed_time.seconds > 60:
-                rate_status['start'] = now
-                rate_status['current'] = 0
+            if not isDatetimeFormat(rate_status['start']):  # init
+                rate_status['start'] = makeDatetime2string(now)
+            else:
+                start = makeString2datetime(rate_status['start'])
+                elapsed_time = now - start
+                if elapsed_time.seconds > rate_status['interval']:  # refresh
+                    rate_status['start'] = makeDatetime2string(now)
+                    rate_status['current'] = 0
+                rate_status['current'] += 1  # increment API count
 
-            # increment API count
-            rate_status['current'] += 1
+            # save rate status
+            makeDict2json(rate_status, jsonpath)
 
         print(rate_status)  # debug
 
