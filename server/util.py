@@ -33,16 +33,16 @@ def isDatetimeFormat(element):
         return False
     return True
 
-def makeString2datetime(element):
-    if not isDatetimeFormat(element):
-        raise ValueError('Invalid argument! (input is not DatetimeFormat)')
-    else:
-        datetime_obj = element.strptime(datetime_format)
-        return datetime_obj
-
 def makeDatetime2string(element):
+    if not isinstance(element, type(datetime.datetime.now())):
+        raise ValueError('Invalid argument! (input is not Datetime)')
+    else:
+        date_string = element.strftime(datetime_format)
+        return date_string
+
+def makeString2datetime(element):
     if not isinstance(element, str):
         raise TypeError('Invalid argument! (input is not str object)')
     else:
-        date_string = datetime.datetime.strftime(datetime_format)
-        return date_string
+        datetime_obj = datetime.datetime.strptime(element, datetime_format)
+        return datetime_obj
