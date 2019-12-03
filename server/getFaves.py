@@ -31,6 +31,7 @@ class FavoritesGenerator(object):
             self.last_id = -1
         else:
             self.last_id = kwargs['last_id']
+        self.view_pointer = 0
 
         if os.path.exists(cached_faves_name):  # read a cache if it exists
             with open(cached_faves_name, 'r') as f:
@@ -53,7 +54,9 @@ class FavoritesGenerator(object):
             fav_list = self.cached_faves
             print('used cache!!!')  # debug
         else:  # If use API, refresh rate status
-            fav_list = self.kwargs['api'].GetFavorites(**kwargs)
+            #fav_list = self.kwargs['api'].GetFavorites(**kwargs)
+            #fav_list = [fav.AsDict() for fav in fav_list]  # convert to a list of dict
+            fav_list = self.cached_faves
             print('called GetFavorites!!!')  # debug
 
             # set API used time
@@ -68,38 +71,47 @@ class FavoritesGenerator(object):
             # increment API count
             rate_status['current'] += 1
 
+        print(rate_status)  # debug
+
         # make or refresh cache
         existNew = True  # temporarily force making cache
         if existNew:
-            self.cached_faves = [fav.AsDict() for fav in fav_list]
+            self.cached_faves = fav_list
             with open(cached_faves_name, 'w') as f:
                 json.dump(self.cached_faves, f)
 
         # prepare for next call
-        self.last_id = fav_list[-1].AsDict()['id']
-        return fav_list
+        self.last_id = fav_list[-1]['id']
+
+        # return top 20 tweets
+        top_num = 20
+        residual_len = len(fav_list) - self.view_pointer
+        if residual_len < top_num :
+            top = fav_list[self.view_pointer:]
+        else:
+            top = fav_list[self.view_pointer:self.view_pointer + top_num]
+        self.view_pointer += top_num
+        return top
 
 gen = FavoritesGenerator(*args, **kwargs)
 
 def getFaves():
-    for i in range(1):
-        ret = gen()
-        for e, j in zip(ret, range(len(ret))):
-            e = e.AsDict()
-            if 'media' not in e.keys():
-                continue
-            media = e['media'][0]
-            url = media['media_url_https'].replace('.jpg', '.png')
-            id = e['id']
-            faves.append({
-                'id' : id,
-                'src' : url,
-                'text' : e['text'],
-                'sizes' : media['sizes'],
-                'favorite_count' : e['favorite_count'],
-                'retweet_count' : e['retweet_count'],
-                'created_at' : e['created_at']
-            })
+    ret = gen()
+    for e, j in zip(ret, range(len(ret))):
+        if 'media' not in e.keys():
+            continue
+        media = e['media'][0]
+        url = media['media_url_https'].replace('.jpg', '.png')
+        id = e['id']
+        faves.append({
+            'id' : id,
+            'src' : url,
+            'text' : e['text'],
+            'sizes' : media['sizes'],
+            'favorite_count' : e['favorite_count'],
+            'retweet_count' : e['retweet_count'],
+            'created_at' : e['created_at']
+        })
     return faves
 
 if __name__ == '__main__':
