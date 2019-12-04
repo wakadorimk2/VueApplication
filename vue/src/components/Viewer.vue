@@ -2,8 +2,9 @@
   <v-card
     class="mx-auto"
     :max-width="windowSize.x"
+    :max-height="windowSize.y"
   >
-    <v-container fluid fill-height>
+    <v-container fluid fill-height class="grey lighten-5">
       <v-btn
         fab
         bottom
@@ -13,25 +14,21 @@
       >
         <v-icon color=#fff>mdi-heart</v-icon>
       </v-btn>
-      <v-row dense>
-        <v-col
+      <v-carousel
+        hide-delimiters
+        :show-arrows="showArrows"
+        :height="windowSize.y"
+        :progress="true"
+        :show-arrows-on-hover="true"
+        :vertical="true"
+        >
+        <v-carousel-item
           v-for="(fav, index) in faves"
           :key="index"
-          :cols="fav.sizes[display]['h']"
+          :src="fav.src"
         >
-          <scroll-loader :loader-method="getFaves" :loader-enable="loadMore">
-            <v-card flat tile>
-              <v-img
-                :src="fav.src"
-                :height="windowSize.y"
-                :width="windowSize.x * (windowSize.y / fav.sizes[display]['h'])"
-                :contain="true"
-              >
-              </v-img>
-            </v-card>
-          </scroll-loader>
-        </v-col>
-      </v-row>
+        </v-carousel-item>
+      </v-carousel>
     </v-container>
   </v-card>
 </template>

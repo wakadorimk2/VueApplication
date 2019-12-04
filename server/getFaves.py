@@ -81,6 +81,7 @@ class FavoritesGenerator(object):
             makeDict2json(rate_status, jsonpath)
 
         print(rate_status)  # debug
+        print(f'view_pointer : {self.view_pointer}')
 
         # make or refresh cache
         existNew = True  # temporarily force making cache
