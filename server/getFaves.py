@@ -7,9 +7,10 @@ import datetime as dt
 import json
 import twitter
 from conf_secret import keys_and_tokens
-from conf import faves, cached_faves_name
+from conf import faves, cached_faves_name, rate_status_init
 from util import makeJson2dict, makeDict2json
 from util import isDatetimeFormat, makeDatetime2string, makeString2datetime
+from RateLimitChecker import RateLimitChecker
 
 # apiの初期化
 api = twitter.Api(**keys_and_tokens)
@@ -22,9 +23,9 @@ kwargs = {
     #'last_id' : 1161675517847715840,  # このツイートIDより古い物を探す
 }
 
-# load JSON for monitoring Rate Limit
-jsonpath = 'rate_status.json'
-rate_status = makeJson2dict(jsonpath)
+# init instance for monitoring Rate Limit
+rate_checker = RateLimitChecker(rate_status_init)
+rate_path = 'rate_status.json'
 
 class FavoritesGenerator(object):
     ''' あるユーザがいいねした画像を取得する。
@@ -55,32 +56,18 @@ class FavoritesGenerator(object):
         if self.last_id >= 0:
             kwargs['max_id'] = self.last_id
 
-        # check rate limit AND count API
-        if rate_status['current'] >= rate_status['limit']:
+        rate_checker.refreshRateStatus()  # refresh status about API
+        if rate_checker.isOverRateLimit():  # if over the limit, use cache
             fav_list = self.cached_faves
             print('used cache!!!')  # debug
-        else:  # If use API, refresh rate status
+        else:  # else, use API
             #fav_list = self.kwargs['api'].GetFavorites(**kwargs)
             #fav_list = [fav.AsDict() for fav in fav_list]  # convert to a list of dict
             fav_list = self.cached_faves
             print('called GetFavorites!!!')  # debug
 
-            # set API used time
-            now = dt.datetime.now()
-            if not isDatetimeFormat(rate_status['start']):  # init
-                rate_status['start'] = makeDatetime2string(now)
-            else:
-                start = makeString2datetime(rate_status['start'])
-                elapsed_time = now - start
-                if elapsed_time.seconds > rate_status['interval']:  # refresh
-                    rate_status['start'] = makeDatetime2string(now)
-                    rate_status['current'] = 0
-                rate_status['current'] += 1  # increment API count
+            rate_checker.writeRateStatus(rate_path)  # save
 
-            # save rate status
-            makeDict2json(rate_status, jsonpath)
-
-        print(rate_status)  # debug
         print(f'view_pointer : {self.view_pointer}')
 
         # make or refresh cache
