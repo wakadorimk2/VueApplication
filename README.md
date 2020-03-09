@@ -1,5 +1,7 @@
-# Vue Application
-このレポジトリはPythonサーバとVueクライアントの連携を練習するためのものです。
+# 自動イラスト閲覧アプリ
+## ローカル環境での実行
+1. このリポジトリをダウンロードする。
+   ```git clone ```
 
 # 参考
 - [Developing a Single Page App with Flask and Vue.js | TestDriven.io](https://testdriven.io/blog/developing-a-single-page-app-with-flask-and-vuejs/)

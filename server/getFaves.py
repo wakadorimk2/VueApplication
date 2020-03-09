@@ -61,9 +61,9 @@ class FavoritesGenerator(object):
             fav_list = self.cached_faves
             print('used cache!!!')  # debug
         else:  # else, use API
-            #fav_list = self.kwargs['api'].GetFavorites(**kwargs)
-            #fav_list = [fav.AsDict() for fav in fav_list]  # convert to a list of dict
-            fav_list = self.cached_faves
+            fav_list = self.kwargs['api'].GetFavorites(**kwargs)
+            fav_list = [fav.AsDict() for fav in fav_list]  # convert to a list of dict
+            #fav_list = self.cached_faves
             print('called GetFavorites!!!')  # debug
 
             rate_checker.writeRateStatus(rate_path)  # save
