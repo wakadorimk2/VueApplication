@@ -36,7 +36,7 @@ keys_and_tokens = {
 ```
 
 4. ライブラリのインストール
-   1. npmとVue CLIをインストールする。
+   1. [npm](https://nodejs.org/en/)と[Vue CLI](https://cli.vuejs.org/guide/installation.html)をインストールする。
    2. Vue.jsライブラリをインストールする。
       ```
       cd vue
